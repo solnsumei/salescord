@@ -6,6 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/solnsumei/api-starter-template/controllers"
 	"github.com/solnsumei/api-starter-template/initializers"
+	"github.com/solnsumei/api-starter-template/middlewares"
 )
 
 func init() {
@@ -23,6 +24,7 @@ func main() {
 	{
 		v1.POST("/register", controllers.Register)
 		v1.POST("/login", controllers.Login)
+		v1.GET("/protected", middlewares.Auth, controllers.Protected)
 	}
 
 	router.GET("/", func(c *gin.Context) {

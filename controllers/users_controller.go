@@ -106,3 +106,12 @@ func Login(c *gin.Context) {
 		"message": "Successful login",
 	})
 }
+
+func Protected(c *gin.Context) {
+	user, _ := c.Get("user")
+
+	c.JSON(http.StatusOK, gin.H{
+		"message": "I'm logged in",
+		"email":   user.(models.User).Email,
+	})
+}
