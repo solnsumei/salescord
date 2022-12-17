@@ -1,4 +1,4 @@
-package initializers
+package services
 
 import "github.com/solnsumei/api-starter-template/models"
 

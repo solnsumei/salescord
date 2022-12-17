@@ -4,15 +4,16 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/solnsumei/api-starter-template/config"
 	"github.com/solnsumei/api-starter-template/controllers"
-	"github.com/solnsumei/api-starter-template/initializers"
 	"github.com/solnsumei/api-starter-template/middlewares"
+	"github.com/solnsumei/api-starter-template/services"
 )
 
 func init() {
-	initializers.LoadEnvVariables()
-	initializers.ConnectToDb()
-	initializers.SyncDatabase()
+	config.LoadEnvVariables()
+	services.ConnectToDb()
+	services.SyncDatabase()
 }
 
 func main() {

@@ -7,8 +7,8 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v4"
-	"github.com/solnsumei/api-starter-template/initializers"
 	"github.com/solnsumei/api-starter-template/models"
+	"github.com/solnsumei/api-starter-template/services"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -39,7 +39,7 @@ func Register(c *gin.Context) {
 
 	// Create the user
 	user := models.User{Email: body.Email, Password: string(hash)}
-	result := initializers.DB.Create(&user)
+	result := services.DB.Create(&user)
 
 	if result.Error != nil {
 		c.JSON(http.StatusUnprocessableEntity, gin.H{
@@ -68,7 +68,7 @@ func Login(c *gin.Context) {
 
 	// Look up user email and password
 	var user models.User
-	if initializers.DB.First(&user, "email = ?", body.Email); user.ID == 0 {
+	if services.DB.First(&user, "email = ?", body.Email); user.ID == 0 {
 		c.JSON(http.StatusUnauthorized, gin.H{
 			"error": "Email and/or password is incorrect.",
 		})

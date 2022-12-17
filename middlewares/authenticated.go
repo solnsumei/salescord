@@ -8,8 +8,8 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v4"
-	"github.com/solnsumei/api-starter-template/initializers"
 	"github.com/solnsumei/api-starter-template/models"
+	"github.com/solnsumei/api-starter-template/services"
 )
 
 func Auth(c *gin.Context) {
@@ -47,7 +47,7 @@ func Auth(c *gin.Context) {
 		}
 		// Find the user with token sub
 		var user models.User
-		if initializers.DB.First(&user, claims["sub"]); user.ID == 0 {
+		if services.DB.First(&user, claims["sub"]); user.ID == 0 {
 			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
 				"message": "Unauthorized",
 			})
