@@ -22,6 +22,7 @@ func main() {
 
 	{
 		v1.POST("/register", controllers.Register)
+		v1.POST("/login", controllers.Login)
 	}
 
 	router.GET("/", func(c *gin.Context) {
