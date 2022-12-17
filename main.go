@@ -17,11 +17,16 @@ func init() {
 func main() {
 	router := gin.Default()
 
-	router.POST("/register", controllers.Register)
+	// Create a v1 router group
+	v1 := router.Group("/api/v1")
+
+	{
+		v1.POST("/register", controllers.Register)
+	}
 
 	router.GET("/", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
-			"message": "pong",
+			"message": "Welcome to API Starter Template",
 		})
 	})
 
