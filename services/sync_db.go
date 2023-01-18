@@ -1,7 +1,10 @@
 package services
 
-import "github.com/solnsumei/api-starter-template/models"
+import (
+	"github.com/solnsumei/api-starter-template/models"
+	"gorm.io/gorm"
+)
 
-func SyncDatabase() {
-	DB.AutoMigrate(&models.User{})
+func SyncDatabase(db *gorm.DB) {
+	db.AutoMigrate(&models.User{})
 }

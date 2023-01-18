@@ -4,17 +4,24 @@ import (
 	"os"
 
 	"gorm.io/driver/postgres"
+	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
 
-var DB *gorm.DB
-
-func ConnectToDb() {
-	var err error
+func InitializeDB() *gorm.DB {
 	dsn := os.Getenv("DSN")
-	DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	var err error
+	var db *gorm.DB
+
+	if os.Getenv("DB_TYPE") == "postgres" {
+		db, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	} else {
+		db, err = gorm.Open(sqlite.Open(dsn), &gorm.Config{})
+	}
 
 	if err != nil {
 		panic("Failed to connect to DB")
 	}
+
+	return db
 }

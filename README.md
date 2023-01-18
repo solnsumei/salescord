@@ -1,18 +1,17 @@
-# Go REST API Starter Template
-REST API starter template for quickly developing golang REST APIs using GIN
+# SalesCord
+API for recording sales and expenses for artisans
 
 ### Features
-- Authentication
-- Permissions
-- Tests
-- Routing
+- Sales Recording
+- Inventory Management
+
 
 
 ### Built with
 - Go
 - Gin-Gonic
 - Gorm
-- SQlite/MySQl/Postgres
+- SQlite/Postgres
 
 
 ### License
