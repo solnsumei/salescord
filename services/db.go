@@ -1,6 +1,7 @@
 package services
 
 import (
+	"log"
 	"os"
 
 	"github.com/solnsumei/api-starter-template/models"
@@ -21,7 +22,7 @@ func InitializeDB() *gorm.DB {
 	}
 
 	if err != nil {
-		panic("Failed to connect to DB")
+		log.Fatal(err)
 	}
 
 	return db
