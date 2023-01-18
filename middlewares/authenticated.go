@@ -12,15 +12,15 @@ import (
 	"gorm.io/gorm"
 )
 
-type AuthMiddleWare struct {
+type AuthMiddleware struct {
 	db *gorm.DB
 }
 
-func NewAuthMiddleware(db *gorm.DB) *AuthMiddleWare {
-	return &AuthMiddleWare{db: db}
+func NewAuthMiddleware(db *gorm.DB) *AuthMiddleware {
+	return &AuthMiddleware{db: db}
 }
 
-func (auth *AuthMiddleWare) Authenticated() gin.HandlerFunc {
+func (auth *AuthMiddleware) Authenticated() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		// Get the cookie from request
 		tokenString, err := c.Cookie("Authorization")

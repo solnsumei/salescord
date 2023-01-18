@@ -3,6 +3,7 @@ package services
 import (
 	"os"
 
+	"github.com/solnsumei/api-starter-template/models"
 	"gorm.io/driver/postgres"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
@@ -24,4 +25,8 @@ func InitializeDB() *gorm.DB {
 	}
 
 	return db
+}
+
+func SyncDatabase(db *gorm.DB) {
+	db.AutoMigrate(&models.User{})
 }
