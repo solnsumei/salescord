@@ -47,7 +47,7 @@ func (controller *UsersController) Register(c *gin.Context) {
 	}
 
 	// Create the user
-	user := models.User{Email: body.Email, Password: string(hash)}
+	user := models.User{Name: body.Name, Email: body.Email, Password: string(hash)}
 	result := controller.db.Create(&user)
 
 	if result.Error != nil {
@@ -117,10 +117,13 @@ func (controller *UsersController) Login(c *gin.Context) {
 }
 
 func (controller *UsersController) Protected(c *gin.Context) {
-	user, _ := c.Get("user")
+	foundUser, _ := c.Get("user")
+
+	var user models.User = foundUser.(models.User)
 
 	c.JSON(http.StatusOK, gin.H{
 		"message": "I'm logged in",
-		"email":   user.(models.User).Email,
+		"email":   user.Email,
+		"name":    user.Name,
 	})
 }
