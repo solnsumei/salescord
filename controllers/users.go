@@ -16,6 +16,10 @@ type UsersController struct {
 	db *gorm.DB
 }
 
+func NewUsersController(db *gorm.DB) *UsersController {
+	return &UsersController{db: db}
+}
+
 type inputBody struct {
 	Email    string `json:"email" binding:"required,email"`
 	Password string `json:"password" binding:"required,min=5"`

@@ -11,11 +11,16 @@ import (
 )
 
 var authMiddleware *middlewares.AuthMiddleware
+var usersController *controllers.UsersController
 
 func init() {
 	config.LoadEnvVariables()
 	db := services.InitializeDB()
 	services.SyncDatabase(db)
+
+	// Initialize Middleware and Controllers
+	authMiddleware = middlewares.NewAuthMiddleware(db)
+	usersController = controllers.NewUsersController(db)
 }
 
 func main() {
@@ -25,14 +30,14 @@ func main() {
 	v1 := router.Group("/api/v1")
 
 	{
-		v1.POST("/register", controllers.Register)
-		v1.POST("/login", controllers.Login)
-		v1.GET("/protected", middlewares.Auth, controllers.Protected)
+		v1.POST("/register", usersController.Register)
+		v1.POST("/login", usersController.Login)
+		v1.GET("/protected", authMiddleware.Authenticated(), usersController.Protected)
 	}
 
 	router.GET("/", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
-			"message": "Welcome to API Starter Template",
+			"message": "Welcome to SalesCord API",
 		})
 	})
 
