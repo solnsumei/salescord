@@ -61,6 +61,7 @@ func (controller *UsersController) Register(c *gin.Context) {
 	c.JSON(http.StatusCreated, gin.H{
 		"message": "Created user successfully",
 		"email":   user.Email,
+		"name":    user.Name,
 	})
 }
 
@@ -119,11 +120,13 @@ func (controller *UsersController) Login(c *gin.Context) {
 func (controller *UsersController) Protected(c *gin.Context) {
 	foundUser, _ := c.Get("user")
 
-	var user models.User = foundUser.(models.User)
+	user := foundUser.(models.User)
 
 	c.JSON(http.StatusOK, gin.H{
 		"message": "I'm logged in",
-		"email":   user.Email,
-		"name":    user.Name,
+		"user": map[string]string{
+			"name":  user.Name,
+			"email": user.Email,
+		},
 	})
 }

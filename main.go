@@ -32,7 +32,7 @@ func main() {
 	{
 		v1.POST("/register", usersController.Register)
 		v1.POST("/login", usersController.Login)
-		v1.GET("/protected", authMiddleware.Authenticated(), usersController.Protected)
+		v1.GET("/protected", authMiddleware.Auth(), usersController.Protected)
 	}
 
 	router.GET("/", func(c *gin.Context) {

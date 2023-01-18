@@ -20,7 +20,7 @@ func NewAuthMiddleware(db *gorm.DB) *AuthMiddleware {
 	return &AuthMiddleware{db: db}
 }
 
-func (auth *AuthMiddleware) Authenticated() gin.HandlerFunc {
+func (auth *AuthMiddleware) Auth() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		// Get the cookie from request
 		tokenString, err := c.Cookie("Authorization")
@@ -68,8 +68,10 @@ func (auth *AuthMiddleware) Authenticated() gin.HandlerFunc {
 
 			// Pass
 			c.Next()
+		} else {
+			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
+				"message": "Unauthorized",
+			})
 		}
-
-		c.AbortWithStatus(http.StatusUnauthorized)
 	}
 }
