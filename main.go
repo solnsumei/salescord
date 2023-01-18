@@ -10,10 +10,12 @@ import (
 	"github.com/solnsumei/api-starter-template/services"
 )
 
+var authMiddleware *middlewares.AuthMiddleware
+
 func init() {
 	config.LoadEnvVariables()
-	services.ConnectToDb()
-	services.SyncDatabase()
+	db := services.InitializeDB()
+	services.SyncDatabase(db)
 }
 
 func main() {

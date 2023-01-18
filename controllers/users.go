@@ -8,16 +8,20 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v4"
 	"github.com/solnsumei/api-starter-template/models"
-	"github.com/solnsumei/api-starter-template/services"
 	"golang.org/x/crypto/bcrypt"
+	"gorm.io/gorm"
 )
+
+type UsersController struct {
+	db *gorm.DB
+}
 
 type inputBody struct {
 	Email    string `json:"email" binding:"required,email"`
 	Password string `json:"password" binding:"required,min=5"`
 }
 
-func Register(c *gin.Context) {
+func (controller *UsersController) Register(c *gin.Context) {
 	// Get the email/pass from request body
 	var body inputBody
 
@@ -39,7 +43,7 @@ func Register(c *gin.Context) {
 
 	// Create the user
 	user := models.User{Email: body.Email, Password: string(hash)}
-	result := services.DB.Create(&user)
+	result := controller.db.Create(&user)
 
 	if result.Error != nil {
 		c.JSON(http.StatusUnprocessableEntity, gin.H{
@@ -55,7 +59,7 @@ func Register(c *gin.Context) {
 	})
 }
 
-func Login(c *gin.Context) {
+func (controller *UsersController) Login(c *gin.Context) {
 	var body inputBody
 
 	// Get the email and password of the body
@@ -68,7 +72,7 @@ func Login(c *gin.Context) {
 
 	// Look up user email and password
 	var user models.User
-	if services.DB.First(&user, "email = ?", body.Email); user.ID == 0 {
+	if controller.db.First(&user, "email = ?", body.Email); user.ID == 0 {
 		c.JSON(http.StatusUnauthorized, gin.H{
 			"error": "Email and/or password is incorrect.",
 		})
@@ -107,7 +111,7 @@ func Login(c *gin.Context) {
 	})
 }
 
-func Protected(c *gin.Context) {
+func (controller *UsersController) Protected(c *gin.Context) {
 	user, _ := c.Get("user")
 
 	c.JSON(http.StatusOK, gin.H{
